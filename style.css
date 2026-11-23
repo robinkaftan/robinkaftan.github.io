@@ -79,6 +79,9 @@ select {
     font-size: 1rem;
 }
 
+.pixelifysans {
+    font-family: "Pixelify Sans";
+}
 
 .topbar {
     position: absolute;
