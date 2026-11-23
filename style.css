@@ -22,7 +22,7 @@ body.terminalgreen {
     --container: url(./assets/slices/greencontainer.png) 3 3 3 3 fill / 9px 9px 9px 9px;
     --transition: 0.125s cubic-bezier(0.34, 1.56, 0.64, 1);
     --bg: #011100;
-    --text: #5af351;
+    --text: #65f95d;
     --img-color: invert(67%) sepia(90%) saturate(397%) hue-rotate(63deg) brightness(107%) contrast(90%);
 }
 
