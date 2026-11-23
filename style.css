@@ -111,14 +111,12 @@ select {
 
 .topbar-entry:hover {
     transform: scale(1.08);
-    padding: 0 0.6rem;
     image-rendering: crisp-edges;
 }
 
 .topbar-entry:active {
     transform: scale(0.94);
     color: #ffff00;
-    padding: 0 0.2rem;
     image-rendering: crisp-edges;
 }
 
@@ -348,6 +346,18 @@ body.read-aloud-active * {
 body.read-aloud-active a,
 body.read-aloud-active button {
     pointer-events: auto;
+}
+
+ul {
+    padding: 0;
+}
+
+ul > h6 {
+    margin-left: 0.2rem;
+}
+
+ul > li {
+    margin-left: 1rem;
 }
 
 @keyframes highlight-pulse {
