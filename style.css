@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap');
-@import url('https://fontlibrary.org/face/dogica');
+@font-face {
+    font-family: "Pixeloid Sans";
+    src: url(./pixeloidsans/PixeloidSans-nR3g1.ttf);
+}
 
 :root {
     --container: url(./assets/slices/container.png) 3 3 3 3 fill / 9px 9px 9px 9px;
@@ -55,10 +58,11 @@ body {
 
 * {
     box-sizing: border-box;
-    font-family: 'Pixelify Sans';
+    font-family: 'Pixeloid Sans';
     color: var(--text);
     -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-smooth: never;
 }
 
 .topbar,
@@ -106,13 +110,13 @@ select {
 }
 
 .topbar-entry:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     padding: 0 0.6rem;
     image-rendering: crisp-edges;
 }
 
 .topbar-entry:active {
-    transform: scale(0.9);
+    transform: scale(0.94);
     color: #ffff00;
     padding: 0 0.2rem;
     image-rendering: crisp-edges;
@@ -319,7 +323,7 @@ hr {
     aspect-ratio: 1 / 1;
 }
 
-.archived-artwork-container > .artwork-section > .artwork:hover {
+.archived-artwork-container>.artwork-section>.artwork:hover {
     transform: scale(1.25);
 }
 
@@ -347,10 +351,11 @@ body.read-aloud-active button {
 }
 
 @keyframes highlight-pulse {
-  0% {
-    box-shadow: 0 0 0 var(--text);
-  }
-  100% {
-    box-shadow: 0 0 20px var(--text);
-  }
+    0% {
+        box-shadow: 0 0 0 var(--text);
+    }
+
+    100% {
+        box-shadow: 0 0 20px var(--text);
+    }
 }
