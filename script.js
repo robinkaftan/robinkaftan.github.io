@@ -19,9 +19,9 @@ const stopReading = () => {
         iframes.forEach(iframe => {
             try {
                 iframe.contentWindow.postMessage({ type: "STOP_READING" }, "*");
-            } catch (e) {}
+            } catch (e) { }
         });
-    } catch (e) {}
+    } catch (e) { }
     activeHighlightedElement = null;
 };
 
@@ -48,14 +48,14 @@ const setReadAloudActive = (active, broadcast = true) => {
         iframes.forEach(iframe => {
             try {
                 iframe.contentWindow.postMessage({ type: "SET_READ_ALOUD", active }, "*");
-            } catch (e) {}
+            } catch (e) { }
         });
-    } catch (e) {}
+    } catch (e) { }
 
     if (broadcast && window !== window.top) {
         try {
             window.top.postMessage({ type: "SET_READ_ALOUD", active }, "*");
-        } catch (e) {}
+        } catch (e) { }
     }
 };
 
@@ -82,6 +82,81 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentTheme = localStorage.getItem("theme") || "";
     applyTheme(currentTheme);
 
+    const nav = document.querySelector(".nav-container");
+    if (nav) {
+        let lastScrollLeft = nav.scrollLeft;
+        let lastScrollTime = performance.now();
+        let currentBlur = 0;
+        let decayFrame = null;
+
+        const decayBlur = () => {
+            currentBlur *= 0.78;
+            if (currentBlur < 0.05) {
+                currentBlur = 0;
+                nav.style.setProperty("--scroll-blur", "0px");
+                decayFrame = null;
+                return;
+            }
+            nav.style.setProperty("--scroll-blur", `${currentBlur.toFixed(2)}px`);
+            decayFrame = requestAnimationFrame(decayBlur);
+        };
+
+        const updateNavOverflow = () => {
+            const now = performance.now();
+            const dt = now - lastScrollTime;
+            const dx = Math.abs(nav.scrollLeft - lastScrollLeft);
+
+            if (dt > 0 && dx > 0) {
+                const velocity = dx / dt;
+                const targetBlur = velocity > 0.2 ? Math.min(4, (velocity - 0.6) * 5) : 0;
+                currentBlur = Math.max(currentBlur, targetBlur);
+                nav.style.setProperty("--scroll-blur", `${currentBlur.toFixed(2)}px`);
+
+                if (!decayFrame && currentBlur > 0) {
+                    decayFrame = requestAnimationFrame(decayBlur);
+                }
+            }
+
+            lastScrollLeft = nav.scrollLeft;
+            lastScrollTime = now;
+
+            const isScrollable = nav.scrollWidth > nav.clientWidth + 1;
+            const hasLeft = isScrollable && nav.scrollLeft > 1;
+            const hasRight = isScrollable && nav.scrollLeft + nav.clientWidth < nav.scrollWidth - 1;
+            nav.dataset.overflowLeft = hasLeft;
+            nav.dataset.overflowRight = hasRight;
+
+            const navRect = nav.getBoundingClientRect();
+            const navCenter = navRect.left + navRect.width / 2;
+            const halfWidth = navRect.width / 2;
+
+            nav.querySelectorAll(".nav-link").forEach(item => {
+                if (!isScrollable) {
+                    item.style.setProperty("--edge-scale", "1");
+                    item.style.setProperty("--edge-margin", "0px");
+                    return;
+                }
+
+                const baseWidth = item.offsetWidth;
+                const itemLeft = item.offsetLeft - nav.scrollLeft + navRect.left;
+                const itemCenter = itemLeft + baseWidth / 2;
+                const distanceFromCenter = Math.abs(navCenter - itemCenter);
+                const normalized = halfWidth > 0 ? Math.min(1, distanceFromCenter / halfWidth) : 0;
+                const eased = Math.pow(normalized, 2.5);
+                const scale = 1 - (0.5 * eased);
+                const marginPull = -((baseWidth * (1 - scale)) / 2);
+
+                item.style.setProperty("--edge-scale", scale.toFixed(3));
+                item.style.setProperty("--edge-margin", `${marginPull.toFixed(2)}px`);
+            });
+        };
+
+        nav.addEventListener("scroll", updateNavOverflow, { passive: true });
+        new ResizeObserver(updateNavOverflow).observe(nav);
+        new MutationObserver(updateNavOverflow).observe(nav, { childList: true, subtree: true });
+        updateNavOverflow();
+    }
+
     const select = document.querySelector("select");
     if (select) {
         Array.from(select.options).forEach(option => {
@@ -101,9 +176,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 iframes.forEach(iframe => {
                     try {
                         iframe.contentWindow.document.body.className = themeName;
-                    } catch (e) {}
+                    } catch (e) { }
                 });
-            } catch (e) {}
+            } catch (e) { }
         });
     }
 
@@ -130,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             if (isReadAloudEnabled) {
                                 iframe.contentWindow.postMessage({ type: "SET_READ_ALOUD", active: true }, "*");
                             }
-                        } catch (e) {}
+                        } catch (e) { }
                     };
                 }, 150);
             });
@@ -206,7 +281,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
 window.addEventListener("storage", (e) => {
     if (e.key === "theme") {
         applyTheme(e.newValue || "");
