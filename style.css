@@ -331,13 +331,13 @@ hr {
 }
 
 .archived-artwork-container {
-    max-width: calc(25% - 2rem);
+    max-width: calc(100%);
     height: 20rem;
     aspect-ratio: 1 / 1;
 }
 
 .archived-artwork-container>.artwork-section>.artwork:hover {
-    transform: scale(1.25);
+    transform: scale(1.05);
 }
 
 .logo {
@@ -429,9 +429,19 @@ ul>li {
     .topbar-entry {
         font-size: 1.15rem;
         padding: 0 0.75rem;
+        scroll-snap-align: center;
     }
 
     .topbar-entry:nth-child(2) {
         padding-left: 1.1rem;
+    }
+
+    .nav-container {
+        scroll-snap-type: x mandatory;
+    }
+    .nav-container::before,
+    .nav-container::after {
+        content: "";
+        flex: 0 0 50%;
     }
 }
