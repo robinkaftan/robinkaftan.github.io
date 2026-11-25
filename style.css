@@ -78,12 +78,14 @@ button,
 .button,
 .artwork-container,
 .archived-artwork-container,
-select {
+select,
+.mobile-warning {
     border-image: var(--container);
     background: transparent;
     padding: var(--container-pad);
     image-rendering: crisp-edges;
     font-size: 1rem;
+    transition: var(--transition);
 }
 
 .pixelifysans {
@@ -407,6 +409,29 @@ ul>li {
     margin-left: 1rem;
 }
 
+.mobile-warning {
+    width: 100%;
+    max-width: 500px;
+    height: fit-content;
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.mobile-overlay {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(24px);
+    z-index: 9998;
+}
+
 @keyframes highlight-pulse {
     0% {
         box-shadow: 0 0 0 var(--text);
@@ -439,9 +464,18 @@ ul>li {
     .nav-container {
         scroll-snap-type: x mandatory;
     }
+
     .nav-container::before,
     .nav-container::after {
         content: "";
         flex: 0 0 50%;
+    }
+
+    .mobile-warning {
+        display: block;
+    }
+
+    .mobile-overlay {
+        display: block;
     }
 }
