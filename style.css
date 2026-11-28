@@ -477,9 +477,15 @@ ul>li {
     .nav-container {
         left: 5.5rem;
         width: calc(100% - 5.5rem - 200cqh - 0.4rem);
-        scroll-snap-type: x proximity;
+        scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         padding-inline: 0.25rem;
+    }
+
+    .nav-container::before,
+    .nav-container::after {
+        content: "";
+        flex: 0 0 50%;
     }
 
     .nav-container[data-overflow-left="true"] {
@@ -500,7 +506,7 @@ ul>li {
     .topbar-entry {
         font-size: 0.8rem;
         padding: 0 0.45rem;
-        scroll-snap-align: start;
+        scroll-snap-align: center;
     }
 
     .topbar-entry:nth-child(2) {
