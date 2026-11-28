@@ -124,6 +124,7 @@ select,
     transform: scale(calc(var(--edge-scale, 1) * var(--hover-scale)));
     filter: blur(var(--scroll-blur, 0px));
     will-change: transform, filter;
+    white-space: nowrap;
 }
 
 .topbar-entry:hover {
@@ -444,34 +445,120 @@ ul>li {
 
 @media (max-width: 768px) {
     :root {
-        --topbar-height: 4rem;
+        --topbar-height: 2.5rem;
+        --container-pad: 6px;
+        --page-margin: 0.35rem;
     }
 
-    .topbar {
-        font-size: 1.15rem;
+    .topbar,
+    .iframe-container,
+    button,
+    .button,
+    .artwork-container,
+    .archived-artwork-container,
+    select,
+    .mobile-warning {
+        font-size: 0.85rem;
     }
 
-    .topbar-entry {
-        font-size: 1.15rem;
-        padding: 0 0.75rem;
-        scroll-snap-align: center;
+    .logo {
+        width: 4.75rem;
     }
 
-    .topbar-entry:nth-child(2) {
-        padding-left: 1.1rem;
+    .topbar-readaloud {
+        right: calc(100cqh + 0.15rem);
+    }
+
+    .cog {
+        width: calc(100% - 0.65rem);
+        height: calc(100% - 0.65rem);
     }
 
     .nav-container {
-        scroll-snap-type: x mandatory;
+        left: 5.5rem;
+        width: calc(100% - 5.5rem - 200cqh - 0.4rem);
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        padding-inline: 0.25rem;
     }
 
-    .nav-container::before,
-    .nav-container::after {
-        content: "";
-        flex: 0 0 50%;
+    .nav-container[data-overflow-left="true"] {
+        -webkit-mask-image: linear-gradient(to right, transparent, black 1.25rem);
+        mask-image: linear-gradient(to right, transparent, black 1.25rem);
+    }
+
+    .nav-container[data-overflow-right="true"] {
+        -webkit-mask-image: linear-gradient(to left, transparent, black 1.25rem);
+        mask-image: linear-gradient(to left, transparent, black 1.25rem);
+    }
+
+    .nav-container[data-overflow-left="true"][data-overflow-right="true"] {
+        -webkit-mask-image: linear-gradient(to right, transparent, black 1.25rem, black calc(100% - 1.25rem), transparent);
+        mask-image: linear-gradient(to right, transparent, black 1.25rem, black calc(100% - 1.25rem), transparent);
+    }
+
+    .topbar-entry {
+        font-size: 0.8rem;
+        padding: 0 0.45rem;
+        scroll-snap-align: start;
+    }
+
+    .topbar-entry:nth-child(2) {
+        padding-left: 0.45rem;
+    }
+
+    h1 {
+        font-size: 1.35rem;
+    }
+
+    h2 {
+        font-size: 1.2rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+
+    h4 {
+        font-size: 1rem;
+    }
+
+    h5 {
+        font-size: 0.9rem;
+    }
+
+    h6 {
+        font-size: 0.85rem;
+    }
+
+    p,
+    li {
+        font-size: 0.85rem;
+        line-height: 1.35;
+    }
+
+    button,
+    .button {
+        font-size: 0.85rem;
+        padding: 6px 10px;
+    }
+
+    .artwork-container {
+        display: none;
+    }
+
+    .iframe-container {
+        width: calc(100% - var(--page-margin) * 2);
+        height: calc(100% - var(--page-margin) * 3 - var(--topbar-height));
+    }
+
+    .archived-artwork-container {
+        height: 12rem;
     }
 
     .mobile-warning {
+        width: calc(100% - var(--page-margin) * 4);
+        max-width: 360px;
         display: block;
     }
 
